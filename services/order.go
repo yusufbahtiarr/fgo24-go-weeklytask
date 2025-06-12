@@ -140,6 +140,6 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderM
 
 func CafeName(){
 	fmt.Println("==================================")
-	fmt.Println("||          TEMU DEGAYU         ||")
+	fmt.Println("||           TEMU DEKA          ||")
 	fmt.Println("==================================")
 }

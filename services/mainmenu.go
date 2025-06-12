@@ -22,8 +22,7 @@ Choose Menu:
 
 0. Exit
 
-Choose an option (0-4)
-`)
+Choose an option (0-4): `)
 	input, _ := reader.ReadString('\n')
 	choice := strings.TrimSpace(input)
 
@@ -32,7 +31,7 @@ Choose an option (0-4)
 		os.Exit(0)
 	case "1":
 		utils.Clear()
-		Order()
+		ListMenu()
 	case "2":
 		utils.Clear()
 		Order()
@@ -44,7 +43,6 @@ Choose an option (0-4)
 		Checkout()
 	default:
 		utils.Clear()
-		return
 	}
 	}
 }

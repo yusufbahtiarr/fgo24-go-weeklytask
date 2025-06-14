@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func Order(){
+func Order() {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
@@ -28,49 +28,47 @@ Choose an option (0-4): `)
 		input, _ := reader.ReadString('\n')
 		choice := strings.TrimSpace(input)
 
-		menu := menus.NewMenuCollection()
-		menu.ShowMenu()
 		switch choice {
 		case "0":
 			utils.Clear()
 			return
 		case "1":
 			utils.Clear()
-			handleCategory("Foods", reader, &data.Orders, menu)
+			handleCategory("Food", reader, &data.Orders)
 		case "2":
 			utils.Clear()
-			handleCategory("Drinks", reader, &data.Orders, menu)
+			handleCategory("Drink", reader, &data.Orders)
 		case "3":
 			utils.Clear()
-			handleCategory("Snacks", reader, &data.Orders, menu)
+			handleCategory("Snack", reader, &data.Orders)
 		case "4":
 			utils.Clear()
-			handleCategory("Appetizers", reader, &data.Orders, menu)
+			handleCategory("Appetizer", reader, &data.Orders)
 		default:
 			utils.Clear()
+			fmt.Print("Invalid option.")
+			reader.ReadString('\n')
+			utils.Clear()
+			continue
 		}
+
 	}
 }
 
-func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderMenu, menu *menus.MenuCollection) {
+func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderMenu) {
+	utils.Clear()
 	CafeName()
 
-	var selectedItems []menus.MenuItem
-	for _, cat := range menu.Categories {
-		if cat.Name == category {
-			selectedItems = cat.Items
-			break
+	var selectedItems []menus.Menu
+	for _, item := range menus.ListMenu {
+		if strings.EqualFold(item.Category, category) {
+			selectedItems = append(selectedItems, item)
 		}
-	}
-
-	if len(selectedItems) == 0 {
-		fmt.Println("No item found in this category.")
-		return
 	}
 
 	fmt.Printf("\n%s Menu:\n", category)
 	for idx, item := range selectedItems {
-		fmt.Printf("%d. %s\n",idx+1, item.DisplayName())
+		fmt.Printf("%d. %s\n", idx+1, item.DisplayName())
 	}
 
 	fmt.Print("\nChoose an option, or press Enter to go back: ")
@@ -84,9 +82,9 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderM
 
 	num, err := strconv.Atoi(input)
 	if err != nil || num < 1 || num > len(selectedItems) {
-		fmt.Println("Invalid choice.")
-		utils.Clear()
-		handleCategory(category, reader, order, menu)
+		fmt.Print("Invalid choice. ")
+		reader.ReadString('\n')
+		handleCategory(category, reader, order)
 		return
 	}
 
@@ -102,43 +100,38 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderM
 		qty, err = strconv.Atoi(qtyInput)
 		if err != nil || qty < 1 {
 			fmt.Println("Invalid quantity. Please enter a positive number.")
-			continue 
+			continue
 		}
 		break
 	}
 
 	*order = append(*order, menus.OrderMenu{
-		Name:		selectedItem.Name,
-		Price:	selectedItem.Price,
+		Name:     selectedItem.Name,
+		Price:    selectedItem.Price,
 		Quantity: qty,
 	})
+
 	fmt.Printf("\nSuccessfully added %d x %s to your order.\n", qty, selectedItem.Name)
-	
+
 	for {
-	fmt.Print("\nWould you like to place another order? (y/n): ")
-	again, _ := reader.ReadString('\n')
-	again = strings.TrimSpace(strings.ToLower(again))
+		fmt.Print("\nWould you like to place another order? (y/n): ")
+		again, _ := reader.ReadString('\n')
+		again = strings.TrimSpace(strings.ToLower(again))
 
-	if again == "y" {
-		utils.Clear()
-		handleCategory(category, reader, order, menu)
-		return 
-	} else if again == "n" {
-		utils.Clear()
-		return
-	} else {
-		fmt.Println("Please choose 'y' or 'n'.")
-		utils.Clear()
-		handleCategory(category, reader, order, menu)
-		return 
+		if again == "y" {
+			handleCategory(category, reader, order)
+			return
+		} else if again == "n" {
+			utils.Clear()
+			return
+		} else {
+			fmt.Println("Please choose 'y' or 'n'.")
+			continue
+		}
 	}
-	}
-
-	
-
 }
 
-func CafeName(){
+func CafeName() {
 	fmt.Println("==================================")
 	fmt.Println("||           TEMU DEKA          ||")
 	fmt.Println("==================================")

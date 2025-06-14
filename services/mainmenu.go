@@ -46,6 +46,10 @@ Choose an option (0-4): `)
 			Checkout()
 		default:
 			utils.Clear()
+			fmt.Print("Invalid options. ")
+			reader.ReadString('\n')
+			utils.Clear()
+			continue
 		}
 	}
 }

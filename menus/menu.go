@@ -5,115 +5,81 @@ import (
 	"strings"
 )
 
-
 type OrderMenu struct {
-	Name string
-	Price int
+	Name     string
+	Price    int
 	Quantity int
 }
 
-type MenuItem struct {
-	Name string
-	Price int
-	Rating float32
+type Menu struct {
+	Name, Category string
+	Price          int
+	Rating         float32
 }
 
 type MenuCategory struct {
 	Name string
-	Items []MenuItem
 }
 
-type MenuCollection struct {
-	Categories []MenuCategory
-}
-
-func NewMenuCollection() *MenuCollection{
-	return &MenuCollection{
-		Categories: []MenuCategory{
-			{
-				Name: "Foods",
-				Items: []MenuItem{
-					{"Nasi Ayam Rica", 30000, 4.7},
-					{"Nasi Ayam Asam Manis", 32000, 4.5},
-					{"Nasi Ayam Lada Hitam", 31000, 4.6},
-					{"Nasi Sapi Mentega", 35000, 4.8},
-					{"Nasi Dori Saus Singapura", 40000, 4.4},
-					{"Nasi Dori Saus Thailand", 40000, 4.3},
-					{"Mie Seafood", 28000, 4.2},
-					{"Ifumi Seafood", 30000, 4.1},
-					{"Kwetiaw Siram Sapi", 34000, 4.6},
-					{"Cumi Rica", 34000, 4.5},
-				},
-			},
-			{
-				Name: "Drinks",
-				Items: []MenuItem{
-					{"Iced Coffee Degayu", 30000, 4.6},
-					{"Iced Coffee Joglo", 30000, 4.5},
-					{"Berry Cream Soda", 26000, 4.2},
-					{"Sunrises", 25000, 4.3},
-					{"Matcha Latte", 23000, 4.4},
-					{"Peanut Butter Cream", 22000, 4.1},
-					{"Mango Bloom Tea", 20000, 4.3},
-					{"Lychee Gum Pop", 18000, 4.0},
-					{"Mango Juice", 20000, 4.2},
-					{"Mango Juice", 20000, 4.2},
-					{"Mineral Water", 8000, 4.0},
-				},
-			},
-			{
-				Name: "Snacks",
-				Items: []MenuItem{
-					{"French Fries", 18000, 4.3},
-					{"Crispy Tofu", 16000, 4.2},
-					{"Fried Banana with Chocolate", 20000, 4.4},
-					{"Chicken Dim Sum", 20000, 4.5},
-					{"Fried Tapioca with Spicy Rujak Sauce", 18000, 4.1},
-					{"Grilled Bread with Chocolate & Cheese", 18000, 4.3},
-					{"Steamed Chicken Dumpling", 17000, 4.4},
-					{"Vegetable Fritters", 18000, 4.2},
-					{"Grilled Fish Cake", 20000, 4.3},
-					{"Cassava with Cheese", 18000, 4.1},
-				},
-			},
-			{
-				Name: "Appetizers",
-				Items: []MenuItem{
-					{"Caesar Salad", 22000, 4.5},
-					{"Bruschetta", 20000, 4.2},
-					{"Cold Cuts Platter", 24000, 4.3},
-					{"Chicken Wings", 22000, 4.5},
-					{"Caprese Skewers", 18000, 4.0},
-					{"Fruit Salad with Mint", 20000, 4.3},
-					{"Mini Sushi Roll", 22000, 4.4},
-					{"Chicken Wings", 22000, 4.5},
-					{"Spring Rolls", 16000, 4.2},
-					{"Mozzarella Sticks", 19000, 4.3},
-				},
-			},
-		},
-	}
-}
-
-func (mi MenuItem) FormatPrice() string {
+func (mi Menu) FormatPrice() string {
 	return FormatRupiah(mi.Price)
 }
 
-func (mi MenuItem) DisplayName() string {
+func (mi Menu) DisplayName() string {
 	return fmt.Sprintf("%s - %s", mi.Name, mi.FormatPrice())
 }
 
 func (om OrderMenu) DisplayOrder() string {
-    return fmt.Sprintf("%s x %d - %s", om.Name, om.Quantity, FormatRupiah(om.Price*om.Quantity))
+	return fmt.Sprintf("%s x %d - %s", om.Name, om.Quantity, FormatRupiah(om.Price*om.Quantity))
 }
 
-func (mc *MenuCollection) ShowMenu(){
-	for _, category := range mc.Categories {
-		fmt.Printf("\nMenu %s:\n", category.Name)
-		for i, item:= range category.Items {
-			fmt.Printf("%d. %s\n", i+1, item.DisplayName())
-		}
-	}
+var ListMenu = []Menu{
+	{Category: "Food", Name: "Nasi Ayam Rica", Price: 30000, Rating: 4.7},
+	{Category: "Food", Name: "Nasi Ayam Asam Manis", Price: 32000, Rating: 4.5},
+	{Category: "Food", Name: "Nasi Ayam Lada Hitam", Price: 31000, Rating: 4.6},
+	{Category: "Food", Name: "Nasi Sapi Mentega", Price: 35000, Rating: 4.8},
+	{Category: "Food", Name: "Nasi Dori Saus Singapura", Price: 40000, Rating: 4.4},
+	{Category: "Food", Name: "Nasi Dori Saus Thailand", Price: 40000, Rating: 4.3},
+	{Category: "Food", Name: "Mie Seafood", Price: 28000, Rating: 4.2},
+	{Category: "Food", Name: "Ifumi Seafood", Price: 30000, Rating: 4.1},
+	{Category: "Food", Name: "Kwetiaw Siram Sapi", Price: 34000, Rating: 4.6},
+	{Category: "Food", Name: "Cumi Rica", Price: 34000, Rating: 4.5},
+	{Category: "Drink", Name: "Iced Coffee Degayu", Price: 30000, Rating: 4.6},
+	{Category: "Drink", Name: "Iced Coffee Joglo", Price: 30000, Rating: 4.5},
+	{Category: "Drink", Name: "Berry Cream Soda", Price: 26000, Rating: 4.2},
+	{Category: "Drink", Name: "Sunrises", Price: 25000, Rating: 4.3},
+	{Category: "Drink", Name: "Matcha Latte", Price: 23000, Rating: 4.4},
+	{Category: "Drink", Name: "Peanut Butter Cream", Price: 22000, Rating: 4.1},
+	{Category: "Drink", Name: "Mango Bloom Tea", Price: 20000, Rating: 4.3},
+	{Category: "Drink", Name: "Lychee Gum Pop", Price: 18000, Rating: 4.0},
+	{Category: "Drink", Name: "Mango Juice", Price: 20000, Rating: 4.2},
+	{Category: "Drink", Name: "Mineral Water", Price: 8000, Rating: 4.0},
+	{Category: "Snack", Name: "French Fries", Price: 18000, Rating: 4.3},
+	{Category: "Snack", Name: "Crispy Tofu", Price: 16000, Rating: 4.2},
+	{Category: "Snack", Name: "Fried Banana with Chocolate", Price: 20000, Rating: 4.4},
+	{Category: "Snack", Name: "Chicken Dim Sum", Price: 20000, Rating: 4.5},
+	{Category: "Snack", Name: "Fried Tapioca with Spicy Rujak Sauce", Price: 18000, Rating: 4.1},
+	{Category: "Snack", Name: "Grilled Bread with Chocolate & Cheese", Price: 18000, Rating: 4.3},
+	{Category: "Snack", Name: "Steamed Chicken Dumpling", Price: 17000, Rating: 4.4},
+	{Category: "Snack", Name: "Vegetable Fritters", Price: 18000, Rating: 4.2},
+	{Category: "Snack", Name: "Grilled Fish Cake", Price: 20000, Rating: 4.3},
+	{Category: "Snack", Name: "Cassava with Cheese", Price: 18000, Rating: 4.1},
+	{Category: "Appetizer", Name: "Caesar Salad", Price: 22000, Rating: 4.5},
+	{Category: "Appetizer", Name: "Bruschetta", Price: 20000, Rating: 4.2},
+	{Category: "Appetizer", Name: "Cold Cuts Platter", Price: 24000, Rating: 4.3},
+	{Category: "Appetizer", Name: "Chicken Wings", Price: 22000, Rating: 4.5},
+	{Category: "Appetizer", Name: "Caprese Skewers", Price: 18000, Rating: 4.0},
+	{Category: "Appetizer", Name: "Fruit Salad with Mint", Price: 20000, Rating: 4.3},
+	{Category: "Appetizer", Name: "Mini Sushi Roll", Price: 22000, Rating: 4.4},
+	{Category: "Appetizer", Name: "Spring Rolls", Price: 16000, Rating: 4.2},
+	{Category: "Appetizer", Name: "Mozzarella Sticks", Price: 19000, Rating: 4.3},
+}
+
+var ListCategory = []MenuCategory{
+	{Name: "Food"},
+	{Name: "Drink"},
+	{Name: "Snack"},
+	{Name: "Appetizer"},
 }
 
 func FormatRupiah(value int) string {

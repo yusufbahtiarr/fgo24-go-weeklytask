@@ -23,7 +23,7 @@ func Clear() {
 	}
 }
 
-func Pause(reader *bufio.Reader) {
+func GoBack(reader *bufio.Reader) {
 	fmt.Print("\nPress Enter to back...")
 	reader.ReadString('\n')
 }

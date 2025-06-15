@@ -13,15 +13,15 @@ func Search() {
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		CafeName()
-		fmt.Println("Search Menu by Name ")
+		fmt.Printf("\nSearch Menu by Name \n")
 
-		fmt.Print("Input keyword : ")
+		fmt.Printf("\nInput keyword : ")
 		input, _ := reader.ReadString('\n')
 		keyword := strings.ToLower(strings.TrimSpace(input))
 
 		if keyword == "" {
-			fmt.Println("\nKeyword cannot be empty.")
-			fmt.Print("Press Enter to try again...")
+			fmt.Printf("\nKeyword cannot be empty.\n")
+			fmt.Printf("\nPress Enter to try again...")
 			reader.ReadString('\n')
 			utils.Clear()
 			continue
@@ -34,23 +34,57 @@ func Search() {
 				results = append(results, item)
 			}
 		}
-		fmt.Println("\nSearch Results:")
+
 		if len(results) == 0 {
-			fmt.Println("No menu items found with the given keyword.")
-		} else {
-			for _, item := range results {
-				fmt.Printf("- %s (%s) - %s\n", item.Name, item.Category, item.FormatPrice())
-			}
-		}
-
-		fmt.Print("\nPress Enter to search again or type 'back' to return: ")
-		inputopt, _ := reader.ReadString('\n')
-		inputopt = strings.TrimSpace(strings.ToLower(inputopt))
-		utils.Clear()
-
-		if inputopt == "back" {
+			fmt.Printf("\nNo menu items found with the given keyword.\n")
+			utils.GoBack(reader)
 			utils.Clear()
-			break
+		} else {
+			const itemPerPage = 5
+			totalItems := len(results)
+			totalPages := (totalItems + itemPerPage - 1) / itemPerPage
+			currentPage := 0
+			for {
+				if currentPage < 0 {
+					currentPage = 0
+				}
+				if currentPage >= totalPages {
+					currentPage = totalPages - 1
+				}
+				utils.Clear()
+				CafeName()
+				fmt.Printf("\nSearch Results '%s' (Page %d of %d)\n\n", keyword, currentPage+1, totalPages)
+
+				start := currentPage * itemPerPage
+				end := start + itemPerPage
+				if end > totalItems {
+					end = totalItems
+				}
+				for _, item := range results[start:end] {
+					fmt.Printf("- %s (%s) - %s\n", item.Name, item.Category, item.FormatPrice())
+				}
+
+				fmt.Println("\n[N] Next page | [P] Previous Page | [B] Back")
+				fmt.Printf("\nChoose an option : ")
+				input, _ = reader.ReadString('\n')
+				input = strings.TrimSpace(input)
+
+				switch input {
+				case "n", "N":
+					if currentPage < totalPages-1 {
+						currentPage++
+					}
+				case "p", "P":
+					if currentPage > 0 {
+						currentPage--
+					}
+				case "b", "B":
+					utils.Clear()
+					return
+				default:
+					fmt.Println("Invalid options.")
+				}
+			}
 		}
 	}
 }

@@ -34,60 +34,44 @@ Menu Show All Menu & Sorting
 		switch choice {
 		case "1":
 			utils.Clear()
-			continue
+			CafeName()
+			displayedSortedMenus("Show All Menu :", sortedMenus, reader)
 		case "2":
-			utils.Clear()
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return sortedMenus[i].Rating > sortedMenus[j].Rating
 			})
-			CafeName()
-			fmt.Printf("\nSort Menu by Most Popular: \n")
-			for _, item := range sortedMenus {
-				fmt.Printf("- %s (%s) - %s\n", item.Name, item.Category, item.FormatPrice())
-			}
-			utils.GoBack(reader)
-			utils.Clear()
-			continue
+			displayedSortedMenus("Sort Menu by Most Popular : ", sortedMenus, reader)
 		case "3":
-			utils.Clear()
-			fmt.Printf("\nSort Menu by Cheapest Price: \n")
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return sortedMenus[i].Price < sortedMenus[j].Price
 			})
-			for _, item := range sortedMenus {
-				fmt.Printf("- %s (%s) - %s\n", item.Name, item.Category, item.FormatPrice())
-			}
-			utils.GoBack(reader)
-			utils.Clear()
-			continue
+			displayedSortedMenus("Sort Menu by Cheapest Price : ", sortedMenus, reader)
 		case "4":
-			utils.Clear()
-			fmt.Printf("\n Sort Menu by Name (A-Z):\n")
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return strings.ToLower(sortedMenus[i].Name) < strings.ToLower(sortedMenus[j].Name)
 			})
-			for _, item := range sortedMenus {
-				fmt.Printf("- %s (%s) - %s\n", item.Name, item.Category, item.FormatPrice())
-			}
-			utils.GoBack(reader)
-			utils.Clear()
-			continue
+			displayedSortedMenus("Sort Menu by Name (A-Z) : ", sortedMenus, reader)
+
 		case "5":
-			utils.Clear()
-			fmt.Printf("\n Sort Menu by Name (Z-A):\n")
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return strings.ToLower(sortedMenus[i].Name) > strings.ToLower(sortedMenus[j].Name)
 			})
-			for _, item := range sortedMenus {
-				fmt.Printf("- %s (%s) - %s\n", item.Name, item.Category, item.FormatPrice())
-			}
-			utils.GoBack(reader)
-			utils.Clear()
-			continue
+			displayedSortedMenus("Sort Menu by Name (Z-A) : ", sortedMenus, reader)
 		case "0":
 			utils.Clear()
 			return
 		}
 
 	}
+}
+
+func displayedSortedMenus(title string, menus []menus.Menu, reader *bufio.Reader) {
+	utils.Clear()
+	CafeName()
+	fmt.Printf("\n%s\n", title)
+	for _, item := range menus {
+		fmt.Printf("- %s (%s) - %s\n", item.Name, item.Category, item.FormatPrice())
+	}
+	utils.GoBack(reader)
+	utils.Clear()
 }

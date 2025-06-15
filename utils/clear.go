@@ -19,7 +19,7 @@ func Clear() {
 		cmd.Stdout = os.Stdout
 		cmd.Run()
 	default:
-		fmt.Println("\n\n\n")
+		fmt.Printf("\n\n\n")
 	}
 }
 

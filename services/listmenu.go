@@ -35,28 +35,28 @@ Menu Show All Menu & Sorting
 		case "1":
 			utils.Clear()
 			CafeName()
-			displayedSortedMenus("Show All Menu :", sortedMenus, reader)
+			displayedSortedMenus("Show All Menu ", sortedMenus, reader)
 		case "2":
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return sortedMenus[i].Rating > sortedMenus[j].Rating
 			})
-			displayedSortedMenus("Sort Menu by Most Popular : ", sortedMenus, reader)
+			displayedSortedMenus("Sort Menu by Most Popular ", sortedMenus, reader)
 		case "3":
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return sortedMenus[i].Price < sortedMenus[j].Price
 			})
-			displayedSortedMenus("Sort Menu by Cheapest Price : ", sortedMenus, reader)
+			displayedSortedMenus("Sort Menu by Cheapest Price ", sortedMenus, reader)
 		case "4":
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return strings.ToLower(sortedMenus[i].Name) < strings.ToLower(sortedMenus[j].Name)
 			})
-			displayedSortedMenus("Sort Menu by Name (A-Z) : ", sortedMenus, reader)
+			displayedSortedMenus("Sort Menu by Name (A-Z) ", sortedMenus, reader)
 
 		case "5":
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return strings.ToLower(sortedMenus[i].Name) > strings.ToLower(sortedMenus[j].Name)
 			})
-			displayedSortedMenus("Sort Menu by Name (Z-A) : ", sortedMenus, reader)
+			displayedSortedMenus("Sort Menu by Name (Z-A) ", sortedMenus, reader)
 		case "0":
 			utils.Clear()
 			return
@@ -66,12 +66,50 @@ Menu Show All Menu & Sorting
 }
 
 func displayedSortedMenus(title string, menus []menus.Menu, reader *bufio.Reader) {
-	utils.Clear()
-	CafeName()
-	fmt.Printf("\n%s\n", title)
-	for _, item := range menus {
-		fmt.Printf("- %s (%s) - %s\n", item.Name, item.Category, item.FormatPrice())
+	const itemPerPage = 5
+	totalItems := len(menus)
+	totalPages := (totalItems + itemPerPage - 1) / itemPerPage
+	currentPage := 0
+
+	for {
+		if currentPage < 0 {
+			currentPage = 0
+		}
+		if currentPage >= totalPages {
+			currentPage = totalPages - 1
+		}
+		utils.Clear()
+		CafeName()
+		fmt.Printf("\n%s (Page %d of %d)\n\n", title, currentPage+1, totalPages)
+
+		start := currentPage * itemPerPage
+		end := start + itemPerPage
+		if end > totalItems {
+			end = totalItems
+		}
+		for _, item := range menus[start:end] {
+			fmt.Printf("- %-32s | %-8s | %s\n", item.Name, item.Category, item.FormatPrice())
+		}
+
+		fmt.Println("\n[N] Next page | [P] Previous Page | [B] Back ")
+		fmt.Print("Choose an option : ")
+		input, _ := reader.ReadString('\n')
+		input = strings.TrimSpace(input)
+
+		switch input {
+		case "n", "N":
+			if currentPage < totalPages-1 {
+				currentPage++
+			}
+		case "p", "P":
+			if currentPage > 0 {
+				currentPage--
+			}
+		case "b", "B":
+			utils.Clear()
+			return
+		default:
+			// fmt.Println("Invalid input.")
+		}
 	}
-	utils.GoBack(reader)
-	utils.Clear()
 }

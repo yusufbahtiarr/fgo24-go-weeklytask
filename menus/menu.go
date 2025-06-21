@@ -5,6 +5,12 @@ import (
 	"strings"
 )
 
+type MenuItem interface {
+	FormatPrice() string
+	Display() string
+	DisplayWithCategory() string
+}
+
 type OrderMenu struct {
 	Name     string
 	Price    int
@@ -24,13 +30,19 @@ type MenuCategory struct {
 func (mi Menu) FormatPrice() string {
 	return FormatRupiah(mi.Price)
 }
-
-func (mi Menu) DisplayName() string {
-	return fmt.Sprintf("%s - %s", mi.Name, mi.FormatPrice())
+func (om OrderMenu) FormatPrice() string {
+	return FormatRupiah(om.Price * om.Quantity)
 }
 
-func (om OrderMenu) DisplayOrder() string {
-	return fmt.Sprintf("%s x %d - %s", om.Name, om.Quantity, FormatRupiah(om.Price*om.Quantity))
+func (mi Menu) Display() string {
+	return fmt.Sprintf("%s - %s", mi.Name, mi.FormatPrice())
+}
+func (mi Menu) DisplayWithCategory() string {
+	return fmt.Sprintf("%s (%s) - %s", mi.Name, mi.Category, mi.FormatPrice())
+}
+
+func (om OrderMenu) Display() string {
+	return fmt.Sprintf("%s x %d - %s", om.Name, om.Quantity, om.FormatPrice())
 }
 
 var ListMenu = []Menu{

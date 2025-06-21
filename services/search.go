@@ -12,7 +12,7 @@ import (
 func Search() {
 	reader := bufio.NewReader(os.Stdin)
 	for {
-		CafeName()
+		menus.CafeName()
 		fmt.Printf("\nSearch Menu by Name \n")
 
 		fmt.Printf("\nInput keyword : ")

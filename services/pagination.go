@@ -6,6 +6,7 @@ import (
 	"go-booking-menu/menus"
 	"go-booking-menu/utils"
 	"strings"
+	"time"
 )
 
 type Pagination struct {
@@ -19,39 +20,6 @@ func NewPagination(items []menus.Menu, perPage int) *Pagination {
 		Items:        items,
 		CurrentPage:  0,
 		ItemsPerPage: perPage,
-	}
-}
-
-// Get total number of pages
-func (p *Pagination) TotalPages() int {
-	if len(p.Items) == 0 || p.ItemsPerPage <= 0 {
-		return 1
-	}
-	return (len(p.Items) + p.ItemsPerPage - 1) / p.ItemsPerPage
-}
-
-func (p *Pagination) CurrentItems() []menus.Menu {
-	start := p.CurrentPage * p.ItemsPerPage
-	end := start + p.ItemsPerPage
-
-	if start > len(p.Items) {
-		return []menus.Menu{}
-	}
-	if end > len(p.Items) {
-		end = len(p.Items)
-	}
-	return p.Items[start:end]
-}
-
-func (p *Pagination) Next() {
-	if p.CurrentPage < p.TotalPages()-1 {
-		p.CurrentPage++
-	}
-}
-
-func (p *Pagination) Previous() {
-	if p.CurrentPage > 0 {
-		p.CurrentPage--
 	}
 }
 
@@ -72,7 +40,7 @@ func DisplayPagination(title string, p *Pagination, reader *bufio.Reader) {
 		}
 
 		utils.Clear()
-		CafeName()
+		menus.CafeName()
 		fmt.Printf("\n%s (Page %d of %d)\n\n", title, p.CurrentPage+1, totalPages)
 
 		start := p.CurrentPage * p.ItemsPerPage
@@ -81,8 +49,8 @@ func DisplayPagination(title string, p *Pagination, reader *bufio.Reader) {
 			end = totalItems
 		}
 
-		for _, item := range p.Items[start:end] {
-			fmt.Printf("- %-32s | %-10s | %s\n", item.Name, item.Category, item.FormatPrice())
+		for i, item := range p.Items[start:end] {
+			fmt.Printf("%d. %s \n", start+i+1, item.DisplayWithCategory())
 		}
 
 		fmt.Println("\n[N] Next page | [P] Previous Page | [B] Back ")
@@ -104,6 +72,7 @@ func DisplayPagination(title string, p *Pagination, reader *bufio.Reader) {
 			return
 		default:
 			fmt.Println("Invalid input.")
+			time.Sleep(time.Second)
 		}
 	}
 }

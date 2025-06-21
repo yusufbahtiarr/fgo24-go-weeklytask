@@ -9,22 +9,14 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func Order() {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		CafeName()
-		fmt.Print(`Choose Category:
-1. Foods
-2. Drinks
-3. Snacks
-4. Appetizers
-
-0. Back to Main Menu
-
-Choose an option (0-4): `)
+		menus.DisplayMenu(menus.OrderMenus)
 		input, _ := reader.ReadString('\n')
 		choice := strings.TrimSpace(input)
 
@@ -57,7 +49,7 @@ Choose an option (0-4): `)
 
 func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderMenu) {
 	utils.Clear()
-	CafeName()
+	menus.CafeName()
 
 	var selectedItems []menus.Menu
 	for _, item := range menus.ListMenu {
@@ -68,7 +60,7 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderM
 
 	fmt.Printf("\n%s Menu:\n", category)
 	for idx, item := range selectedItems {
-		fmt.Printf("%d. %s\n", idx+1, item.DisplayName())
+		fmt.Printf("%d. %s\n", idx+1, item.Display())
 	}
 
 	fmt.Print("\nChoose an option, or press Enter to go back: ")
@@ -99,7 +91,7 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderM
 		var err error
 		qty, err = strconv.Atoi(qtyInput)
 		if err != nil || qty < 1 {
-			fmt.Println("Invalid quantity. Please enter a positive number.")
+			fmt.Println("Invalid Input.")
 			continue
 		}
 		break
@@ -115,24 +107,19 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderM
 
 	for {
 		fmt.Print("\nWould you like to place another order? (y/n): ")
-		again, _ := reader.ReadString('\n')
-		again = strings.TrimSpace(strings.ToLower(again))
+		input, _ := reader.ReadString('\n')
+		input = strings.TrimSpace(strings.ToLower(input))
 
-		if again == "y" {
+		switch input {
+		case "y":
 			handleCategory(category, reader, order)
 			return
-		} else if again == "n" {
+		case "n":
 			utils.Clear()
 			return
-		} else {
-			fmt.Println("Please choose 'y' or 'n'.")
-			continue
+		default:
+			fmt.Println("Invalid option.")
+			time.Sleep(time.Second)
 		}
 	}
-}
-
-func CafeName() {
-	fmt.Println("==================================")
-	fmt.Println("||           TEMU DEKA          ||")
-	fmt.Println("==================================")
 }

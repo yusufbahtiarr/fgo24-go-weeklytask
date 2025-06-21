@@ -2,7 +2,6 @@ package services
 
 import (
 	"bufio"
-	"fmt"
 	"go-booking-menu/menus"
 	"go-booking-menu/utils"
 	"os"
@@ -12,19 +11,8 @@ import (
 
 func ListMenu() {
 	reader := bufio.NewReader(os.Stdin)
-	utils.Clear()
 	for {
-		CafeName()
-		fmt.Println(`
-Menu Show All Menu & Sorting
-1. Show All Menus
-2. Sort by Most Popular
-3. Sort by Cheapest Price
-4. Sort by Name (A-Z)
-5. Sort by Name (Z-A)
-0. Back to Main Menu`)
-
-		fmt.Print("\nChoose an option (0-5): ")
+		menus.DisplayMenu(menus.ListMenus)
 		input, _ := reader.ReadString('\n')
 		choice := strings.TrimSpace(input)
 
@@ -40,29 +28,25 @@ Menu Show All Menu & Sorting
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return sortedMenus[i].Rating > sortedMenus[j].Rating
 			})
-			p := DefaultPagination(sortedMenus)
-			DisplayPagination("Sort Menu by Most Popular", p, reader)
+			DisplayPagination("Sort Menu by Most Popular", DefaultPagination(sortedMenus), reader)
 
 		case "3":
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return sortedMenus[i].Price < sortedMenus[j].Price
 			})
-			p := DefaultPagination(sortedMenus)
-			DisplayPagination("Sort Menu by Cheapest Price", p, reader)
+			DisplayPagination("Sort Menu by Cheapest Price", DefaultPagination(sortedMenus), reader)
 
 		case "4":
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return strings.ToLower(sortedMenus[i].Name) < strings.ToLower(sortedMenus[j].Name)
 			})
-			p := DefaultPagination(sortedMenus)
-			DisplayPagination("Sort Menu by Name (A-Z)", p, reader)
+			DisplayPagination("Sort Menu by Name (A-Z)", DefaultPagination(sortedMenus), reader)
 
 		case "5":
 			sort.Slice(sortedMenus, func(i, j int) bool {
 				return strings.ToLower(sortedMenus[i].Name) > strings.ToLower(sortedMenus[j].Name)
 			})
-			p := DefaultPagination(sortedMenus)
-			DisplayPagination("Sort Menu by Name (Z-A)", p, reader)
+			DisplayPagination("Sort Menu by Name (Z-A)", DefaultPagination(sortedMenus), reader)
 
 		case "0":
 			utils.Clear()
@@ -70,56 +54,8 @@ Menu Show All Menu & Sorting
 
 		default:
 			utils.Clear()
+			return
 		}
 
 	}
 }
-
-// func displayedSortedMenus(title string, menus []menus.Menu, reader *bufio.Reader) {
-// 	const itemPerPage = 5
-// 	totalItems := len(menus)
-// 	totalPages := (totalItems + itemPerPage - 1) / itemPerPage
-// 	currentPage := 0
-
-// 	for {
-// 		if currentPage < 0 {
-// 			currentPage = 0
-// 		}
-// 		if currentPage >= totalPages {
-// 			currentPage = totalPages - 1
-// 		}
-// 		utils.Clear()
-// 		CafeName()
-// 		fmt.Printf("\n%s (Page %d of %d)\n\n", title, currentPage+1, totalPages)
-
-// 		start := currentPage * itemPerPage
-// 		end := start + itemPerPage
-// 		if end > totalItems {
-// 			end = totalItems
-// 		}
-// 		for _, item := range menus[start:end] {
-// 			fmt.Printf("- %-32s | %-8s | %s\n", item.Name, item.Category, item.FormatPrice())
-// 		}
-
-// 		fmt.Println("\n[N] Next page | [P] Previous Page | [B] Back ")
-// 		fmt.Print("Choose an option : ")
-// 		input, _ := reader.ReadString('\n')
-// 		input = strings.TrimSpace(input)
-
-// 		switch input {
-// 		case "n", "N":
-// 			if currentPage < totalPages-1 {
-// 				currentPage++
-// 			}
-// 		case "p", "P":
-// 			if currentPage > 0 {
-// 				currentPage--
-// 			}
-// 		case "b", "B":
-// 			utils.Clear()
-// 			return
-// 		default:
-// 			// fmt.Println("Invalid input.")
-// 		}
-// 	}
-// }

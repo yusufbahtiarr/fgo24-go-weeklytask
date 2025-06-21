@@ -3,6 +3,7 @@ package services
 import (
 	"bufio"
 	"fmt"
+	"go-booking-menu/menus"
 	"go-booking-menu/utils"
 	"os"
 	"strings"
@@ -11,18 +12,8 @@ import (
 func MainMenu() {
 	reader := bufio.NewReader(os.Stdin)
 	for {
-		CafeName()
-		fmt.Print(`
-Choose Menu:
-1. List Menu
-2. Search Menu
-3. Order
-4. Cart
-5. Checkout
+		menus.DisplayMenu(menus.MainMenus)
 
-0. Exit
-
-Choose an option (0-4): `)
 		input, _ := reader.ReadString('\n')
 		choice := strings.TrimSpace(input)
 

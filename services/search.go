@@ -10,10 +10,11 @@ import (
 
 func Search() {
 	for {
+		utils.Clear()
 		menus.CafeName()
 		fmt.Printf("\nSearch Product by Name \n")
 
-		fmt.Printf("\nEnter the product you're looking for:  : ")
+		fmt.Printf("\nEnter the product you're looking for: ")
 		input := utils.Input()
 
 		if input == "" {
@@ -22,21 +23,32 @@ func Search() {
 			continue
 		}
 
-		var results []menus.Product
-		for _, item := range menus.ListProduct {
-			if strings.Contains(strings.ToLower(item.Name), input) {
-				results = append(results, item)
+		resultChan := make(chan []menus.Product)
+
+		go func(keyword string, ch chan<- []menus.Product) {
+			var found []menus.Product
+			lowered := strings.ToLower(keyword)
+
+			for _, item := range menus.ListProduct {
+				if strings.Contains(strings.ToLower(item.Name), lowered) {
+					found = append(found, item)
+				}
 			}
-		}
+			ch <- found
+		}(input, resultChan)
+
+		fmt.Printf("\nSearching...")
+		time.Sleep(2 * time.Second)
+
+		results := <-resultChan
+		close(resultChan)
 
 		if len(results) == 0 {
 			fmt.Printf("\nNo product found.\n")
 			time.Sleep(time.Second)
-			utils.Clear()
 			return
 		}
-		p := DefaultPagination(results)
-		DisplayPagination(fmt.Sprintf("Search Results for '%s'", input), p)
+		DisplayPagination(fmt.Sprintf("Search Results for '%s'", input), DefaultPagination(results))
 		return
 	}
 }

@@ -34,7 +34,7 @@ func DisplayMenu(menuType MenuType) {
 			Options: []MenuOption{
 				{1, "All Menu"},
 				{2, "Search Menu"},
-				{3, "Order"},
+				{3, "Filter"},
 				{4, "Cart"},
 				{5, "Checkout"},
 				{6, "Back to Auth Menu"},

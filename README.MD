@@ -1,11 +1,19 @@
-# Minitask Golang Project - Application Interactive Booking Menu CLI
+# Cafe Shop CLI Application in Go
 
-This repository is a golang project for weekly assignments. this program is made with go language with basic golang (loop, slice, exported & unexported, defer, exit, pointer, interface, method, goroutine) implementation. this application is a cli application with the name poject booking menu. some of the features in this application:
+This project was developed by Yusuf Bahtiar. It is a Command-Line Interface (CLI) application built using the Go programming language, designed to simulate a coffee shop system. The application allows users to browse and order menu items from a customer’s perspective, as well as manage items from an admin’s perspective.
 
-- menu list feature with search, sorting function
-- menu booking feature with qty menu order
-- cart feature
-- checkout feature
+Feature :
+
+1. Search Item (By Name)
+2. Filter Item (By Category)
+3. Sort Item (Most Popular, Cheapest Price, Most Expensive, Product Ascending &Decending)
+4. Add and Remove Item in Cart
+5. Pagination
+6. Auth Flow
+
+## Prerequisites
+
+Make sure you already install Go to run this project
 
 ## How to Run
 

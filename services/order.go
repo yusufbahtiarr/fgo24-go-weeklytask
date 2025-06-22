@@ -81,13 +81,7 @@ func handleCategory(category string, order *[]menus.OrderProduct) {
 		break
 	}
 
-	*order = append(*order, menus.OrderProduct{
-		Name:     selectedItem.Name,
-		Price:    selectedItem.Price,
-		Quantity: qty,
-	})
-
-	fmt.Printf("\nSuccessfully added %d x %s to your order.\n", qty, selectedItem.Name)
+	AddToCart(order, selectedItem, qty)
 
 	for {
 		fmt.Print("\nWould you like to place another order? (y/n): ")

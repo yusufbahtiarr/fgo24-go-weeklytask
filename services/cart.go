@@ -13,7 +13,12 @@ func Cart() {
 	for {
 		utils.Clear()
 		menus.CafeName()
-		fmt.Println("\nYour Order:")
+		if len(menus.Orders) == 0 {
+			fmt.Println("\nYour Cart is Empty:")
+			time.Sleep(time.Second)
+			return
+		}
+		fmt.Println("\nYour Cart:")
 		var total int
 		for i, item := range menus.Orders {
 			total += item.Price * item.Quantity
@@ -58,4 +63,14 @@ func DeleteProductCart(input string) {
 
 	fmt.Println("\nItem has been removed from your cart.")
 	time.Sleep(time.Second)
+}
+
+func AddToCart(order *[]menus.OrderProduct, selectedItem menus.Product, qty int) {
+	*order = append(*order, menus.OrderProduct{
+		Name:     selectedItem.Name,
+		Price:    selectedItem.Price,
+		Quantity: qty,
+	})
+
+	fmt.Printf("\nSuccessfully added %d x %s to your order.\n", qty, selectedItem.Name)
 }

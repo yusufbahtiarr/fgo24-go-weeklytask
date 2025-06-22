@@ -3,7 +3,6 @@ package services
 import (
 	"bufio"
 	"fmt"
-	"go-booking-menu/data"
 	"go-booking-menu/menus"
 	"go-booking-menu/utils"
 	"os"
@@ -26,16 +25,16 @@ func Order() {
 			return
 		case "1":
 			utils.Clear()
-			handleCategory("Food", reader, &data.Orders)
+			handleCategory("Food", reader, &menus.Orders)
 		case "2":
 			utils.Clear()
-			handleCategory("Drink", reader, &data.Orders)
+			handleCategory("Drink", reader, &menus.Orders)
 		case "3":
 			utils.Clear()
-			handleCategory("Snack", reader, &data.Orders)
+			handleCategory("Snack", reader, &menus.Orders)
 		case "4":
 			utils.Clear()
-			handleCategory("Appetizer", reader, &data.Orders)
+			handleCategory("Appetizer", reader, &menus.Orders)
 		default:
 			utils.Clear()
 			fmt.Print("Invalid option.")
@@ -47,12 +46,12 @@ func Order() {
 	}
 }
 
-func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderMenu) {
+func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderProduct) {
 	utils.Clear()
 	menus.CafeName()
 
-	var selectedItems []menus.Menu
-	for _, item := range menus.ListMenu {
+	var selectedItems []menus.Product
+	for _, item := range menus.ListProduct {
 		if strings.EqualFold(item.Category, category) {
 			selectedItems = append(selectedItems, item)
 		}
@@ -97,7 +96,7 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderM
 		break
 	}
 
-	*order = append(*order, menus.OrderMenu{
+	*order = append(*order, menus.OrderProduct{
 		Name:     selectedItem.Name,
 		Price:    selectedItem.Price,
 		Quantity: qty,

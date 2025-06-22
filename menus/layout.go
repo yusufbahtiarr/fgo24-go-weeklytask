@@ -8,6 +8,7 @@ const (
 	MainMenus  MenuType = "main"
 	ListMenus  MenuType = "list"
 	OrderMenus MenuType = "order"
+	AuthMenus  MenuType = "auth"
 )
 
 type MenuOption struct {
@@ -31,11 +32,12 @@ func DisplayMenu(menuType MenuType) {
 		MainMenus: {
 			Title: "Choose Menu",
 			Options: []MenuOption{
-				{1, "List Menu"},
+				{1, "All Menu"},
 				{2, "Search Menu"},
 				{3, "Order"},
 				{4, "Cart"},
 				{5, "Checkout"},
+				{6, "Back to Auth Menu"},
 				{0, "Exit"},
 			},
 		},
@@ -58,6 +60,14 @@ func DisplayMenu(menuType MenuType) {
 				{3, "Snacks"},
 				{4, "Appetizers"},
 				{0, "Back to Main Menu"},
+			},
+		},
+		AuthMenus: {
+			Title: "Authenticaton",
+			Options: []MenuOption{
+				{1, "Login"},
+				{2, "Register"},
+				{0, "Exit"},
 			},
 		},
 	}

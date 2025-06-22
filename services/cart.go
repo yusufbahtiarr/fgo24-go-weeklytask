@@ -3,7 +3,6 @@ package services
 import (
 	"bufio"
 	"fmt"
-	"go-booking-menu/data"
 	"go-booking-menu/menus"
 	"go-booking-menu/utils"
 	"os"
@@ -14,7 +13,7 @@ func Cart() {
 	menus.CafeName()
 	fmt.Println("\nYour Order:")
 	var total int
-	for i, item := range data.Orders {
+	for i, item := range menus.Orders {
 		total += item.Price * item.Quantity
 		fmt.Printf("%d. %s\n", i+1, item.Display())
 	}

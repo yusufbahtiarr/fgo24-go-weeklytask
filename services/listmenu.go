@@ -16,37 +16,37 @@ func ListMenu() {
 		input, _ := reader.ReadString('\n')
 		choice := strings.TrimSpace(input)
 
-		sortedMenus := make([]menus.Menu, len(menus.ListMenu))
-		copy(sortedMenus, menus.ListMenu)
+		sortedProducts := make([]menus.Product, len(menus.ListProduct))
+		copy(sortedProducts, menus.ListProduct)
 
 		switch choice {
 		case "1":
-			p := DefaultPagination(sortedMenus)
+			p := DefaultPagination(sortedProducts)
 			DisplayPagination("Show All Menu ", p, reader)
 
 		case "2":
-			sort.Slice(sortedMenus, func(i, j int) bool {
-				return sortedMenus[i].Rating > sortedMenus[j].Rating
+			sort.Slice(sortedProducts, func(i, j int) bool {
+				return sortedProducts[i].Rating > sortedProducts[j].Rating
 			})
-			DisplayPagination("Sort Menu by Most Popular", DefaultPagination(sortedMenus), reader)
+			DisplayPagination("Sort Menu by Most Popular", DefaultPagination(sortedProducts), reader)
 
 		case "3":
-			sort.Slice(sortedMenus, func(i, j int) bool {
-				return sortedMenus[i].Price < sortedMenus[j].Price
+			sort.Slice(sortedProducts, func(i, j int) bool {
+				return sortedProducts[i].Price < sortedProducts[j].Price
 			})
-			DisplayPagination("Sort Menu by Cheapest Price", DefaultPagination(sortedMenus), reader)
+			DisplayPagination("Sort Menu by Cheapest Price", DefaultPagination(sortedProducts), reader)
 
 		case "4":
-			sort.Slice(sortedMenus, func(i, j int) bool {
-				return strings.ToLower(sortedMenus[i].Name) < strings.ToLower(sortedMenus[j].Name)
+			sort.Slice(sortedProducts, func(i, j int) bool {
+				return strings.ToLower(sortedProducts[i].Name) < strings.ToLower(sortedProducts[j].Name)
 			})
-			DisplayPagination("Sort Menu by Name (A-Z)", DefaultPagination(sortedMenus), reader)
+			DisplayPagination("Sort Menu by Name (A-Z)", DefaultPagination(sortedProducts), reader)
 
 		case "5":
-			sort.Slice(sortedMenus, func(i, j int) bool {
-				return strings.ToLower(sortedMenus[i].Name) > strings.ToLower(sortedMenus[j].Name)
+			sort.Slice(sortedProducts, func(i, j int) bool {
+				return strings.ToLower(sortedProducts[i].Name) > strings.ToLower(sortedProducts[j].Name)
 			})
-			DisplayPagination("Sort Menu by Name (Z-A)", DefaultPagination(sortedMenus), reader)
+			DisplayPagination("Sort Menu by Name (Z-A)", DefaultPagination(sortedProducts), reader)
 
 		case "0":
 			utils.Clear()

@@ -10,12 +10,12 @@ import (
 )
 
 type Pagination struct {
-	Items        []menus.Menu
+	Items        []menus.Product
 	CurrentPage  int
 	ItemsPerPage int
 }
 
-func NewPagination(items []menus.Menu, perPage int) *Pagination {
+func NewPagination(items []menus.Product, perPage int) *Pagination {
 	return &Pagination{
 		Items:        items,
 		CurrentPage:  0,
@@ -23,7 +23,7 @@ func NewPagination(items []menus.Menu, perPage int) *Pagination {
 	}
 }
 
-func DefaultPagination(items []menus.Menu) *Pagination {
+func DefaultPagination(items []menus.Product) *Pagination {
 	return NewPagination(items, 5)
 }
 

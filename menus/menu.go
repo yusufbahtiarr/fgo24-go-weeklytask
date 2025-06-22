@@ -5,25 +5,25 @@ import (
 	"strings"
 )
 
-type MenuItem interface {
+type ProductItem interface {
 	FormatPrice() string
 	Display() string
 	DisplayWithCategory() string
 }
 
-type OrderMenu struct {
+type OrderProduct struct {
 	Name     string
 	Price    int
 	Quantity int
 }
 
-type Menu struct {
+type Product struct {
 	Name, Category string
 	Price          int
 	Rating         float32
 }
 
-type MenuCategory struct {
+type ProductCategory struct {
 	Name string
 }
 
@@ -32,29 +32,29 @@ type User struct {
 	Password string
 }
 
-func (mi Menu) FormatPrice() string {
-	return FormatRupiah(mi.Price)
+func (pr Product) FormatPrice() string {
+	return FormatRupiah(pr.Price)
 }
-func (om OrderMenu) FormatPrice() string {
+func (om OrderProduct) FormatPrice() string {
 	return FormatRupiah(om.Price * om.Quantity)
 }
 
-func (mi Menu) Display() string {
-	return fmt.Sprintf("%s - %s", mi.Name, mi.FormatPrice())
+func (pr Product) Display() string {
+	return fmt.Sprintf("%s - %s", pr.Name, pr.FormatPrice())
 }
-func (mi Menu) DisplayWithCategory() string {
-	return fmt.Sprintf("%s (%s) - %s", mi.Name, mi.Category, mi.FormatPrice())
+func (pr Product) DisplayWithCategory() string {
+	return fmt.Sprintf("%s (%s) - %s", pr.Name, pr.Category, pr.FormatPrice())
 }
 
-func (om OrderMenu) Display() string {
+func (om OrderProduct) Display() string {
 	return fmt.Sprintf("%s x %d - %s", om.Name, om.Quantity, om.FormatPrice())
 }
 
-var Orders []OrderMenu
+var Orders []OrderProduct
 
 var Users []User
 
-var ListMenu = []Menu{
+var ListProduct = []Product{
 	{Category: "Food", Name: "Nasi Ayam Rica", Price: 30000, Rating: 4.7},
 	{Category: "Food", Name: "Nasi Ayam Asam Manis", Price: 32000, Rating: 4.5},
 	{Category: "Food", Name: "Nasi Ayam Lada Hitam", Price: 31000, Rating: 4.6},
@@ -96,7 +96,7 @@ var ListMenu = []Menu{
 	{Category: "Appetizer", Name: "Mozzarella Sticks", Price: 19000, Rating: 4.3},
 }
 
-var ListCategory = []MenuCategory{
+var ListCategory = []ProductCategory{
 	{Name: "Food"},
 	{Name: "Drink"},
 	{Name: "Snack"},

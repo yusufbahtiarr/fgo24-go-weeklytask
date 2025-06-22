@@ -27,8 +27,8 @@ func Search() {
 			continue
 		}
 
-		var results []menus.Menu
-		for _, item := range menus.ListMenu {
+		var results []menus.Product
+		for _, item := range menus.ListProduct {
 			if strings.Contains(strings.ToLower(item.Name), keyword) {
 				results = append(results, item)
 			}

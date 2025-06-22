@@ -1,15 +1,12 @@
 package services
 
 import (
-	"bufio"
-	"fmt"
 	"go-booking-menu/menus"
 	"go-booking-menu/utils"
 	"os"
 )
 
 func MainMenu() {
-	reader := bufio.NewReader(os.Stdin)
 	for {
 		utils.Clear()
 		menus.DisplayMenu(menus.MainMenus)
@@ -29,10 +26,9 @@ func MainMenu() {
 		case "5":
 			MenuAuth()
 		case "6":
-			return
+			utils.Exit()
 		default:
-			fmt.Print("Invalid options. ")
-			reader.ReadString('\n')
+			utils.Input()
 			continue
 		}
 	}

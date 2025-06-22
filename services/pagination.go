@@ -1,12 +1,9 @@
 package services
 
 import (
-	"bufio"
 	"fmt"
 	"go-booking-menu/menus"
 	"go-booking-menu/utils"
-	"strings"
-	"time"
 )
 
 type Pagination struct {
@@ -27,7 +24,7 @@ func DefaultPagination(items []menus.Product) *Pagination {
 	return NewPagination(items, 5)
 }
 
-func DisplayPagination(title string, p *Pagination, reader *bufio.Reader) {
+func DisplayPagination(title string, p *Pagination) {
 	totalItems := len(p.Items)
 	totalPages := (totalItems + p.ItemsPerPage - 1) / p.ItemsPerPage
 
@@ -55,8 +52,7 @@ func DisplayPagination(title string, p *Pagination, reader *bufio.Reader) {
 
 		fmt.Println("\n[N] Next page | [P] Previous Page | [B] Back ")
 		fmt.Print("Choose an option : ")
-		input, _ := reader.ReadString('\n')
-		input = strings.TrimSpace(input)
+		input := utils.Input()
 
 		switch input {
 		case "n", "N":
@@ -71,8 +67,7 @@ func DisplayPagination(title string, p *Pagination, reader *bufio.Reader) {
 			utils.Clear()
 			return
 		default:
-			fmt.Println("Invalid input.")
-			time.Sleep(time.Second)
+			utils.InvalidInput()
 		}
 	}
 }

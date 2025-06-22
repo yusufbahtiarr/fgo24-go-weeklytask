@@ -1,52 +1,40 @@
 package services
 
 import (
-	"bufio"
 	"fmt"
 	"go-booking-menu/menus"
 	"go-booking-menu/utils"
-	"os"
 	"strconv"
 	"strings"
-	"time"
 )
 
 func Order() {
-	reader := bufio.NewReader(os.Stdin)
-
 	for {
+		utils.Clear()
 		menus.DisplayMenu(menus.OrderMenus)
-		input, _ := reader.ReadString('\n')
-		choice := strings.TrimSpace(input)
+		input := utils.Input()
 
-		switch choice {
+		switch input {
 		case "0":
 			utils.Clear()
 			return
 		case "1":
-			utils.Clear()
-			handleCategory("Food", reader, &menus.Orders)
+			handleCategory("Food", &menus.Orders)
 		case "2":
-			utils.Clear()
-			handleCategory("Drink", reader, &menus.Orders)
+			handleCategory("Drink", &menus.Orders)
 		case "3":
-			utils.Clear()
-			handleCategory("Snack", reader, &menus.Orders)
+			handleCategory("Snack", &menus.Orders)
 		case "4":
-			utils.Clear()
-			handleCategory("Appetizer", reader, &menus.Orders)
+			handleCategory("Appetizer", &menus.Orders)
 		default:
-			utils.Clear()
-			fmt.Print("Invalid option.")
-			reader.ReadString('\n')
-			utils.Clear()
+			utils.InvalidInput()
 			continue
 		}
 
 	}
 }
 
-func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderProduct) {
+func handleCategory(category string, order *[]menus.OrderProduct) {
 	utils.Clear()
 	menus.CafeName()
 
@@ -63,8 +51,7 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderP
 	}
 
 	fmt.Print("\nChoose an option, or press Enter to go back: ")
-	input, _ := reader.ReadString('\n')
-	input = strings.TrimSpace(input)
+	input := utils.Input()
 
 	if input == "" {
 		utils.Clear()
@@ -73,9 +60,8 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderP
 
 	num, err := strconv.Atoi(input)
 	if err != nil || num < 1 || num > len(selectedItems) {
-		fmt.Print("Invalid choice. ")
-		reader.ReadString('\n')
-		handleCategory(category, reader, order)
+		utils.InvalidInput()
+		handleCategory(category, order)
 		return
 	}
 
@@ -84,8 +70,7 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderP
 	var qty int
 	for {
 		fmt.Print("Enter quantity: ")
-		qtyInput, _ := reader.ReadString('\n')
-		qtyInput = strings.TrimSpace(qtyInput)
+		qtyInput := utils.Input()
 
 		var err error
 		qty, err = strconv.Atoi(qtyInput)
@@ -106,19 +91,17 @@ func handleCategory(category string, reader *bufio.Reader, order *[]menus.OrderP
 
 	for {
 		fmt.Print("\nWould you like to place another order? (y/n): ")
-		input, _ := reader.ReadString('\n')
-		input = strings.TrimSpace(strings.ToLower(input))
+		input := utils.Input()
 
 		switch input {
 		case "y":
-			handleCategory(category, reader, order)
+			handleCategory(category, order)
 			return
 		case "n":
 			utils.Clear()
 			return
 		default:
-			fmt.Println("Invalid option.")
-			time.Sleep(time.Second)
+			utils.InvalidInput()
 		}
 	}
 }

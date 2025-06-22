@@ -1,47 +1,42 @@
 package services
 
 import (
-	"bufio"
 	"fmt"
 	"go-booking-menu/menus"
 	"go-booking-menu/utils"
-	"os"
 	"strings"
+	"time"
 )
 
 func Search() {
-	reader := bufio.NewReader(os.Stdin)
 	for {
 		menus.CafeName()
-		fmt.Printf("\nSearch Menu by Name \n")
+		fmt.Printf("\nSearch Product by Name \n")
 
-		fmt.Printf("\nInput keyword : ")
-		input, _ := reader.ReadString('\n')
-		keyword := strings.ToLower(strings.TrimSpace(input))
+		fmt.Printf("\nEnter the product you're looking for:  : ")
+		input := utils.Input()
 
-		if keyword == "" {
+		if input == "" {
 			fmt.Printf("\nKeyword cannot be empty.\n")
-			fmt.Printf("\nPress Enter to try again...")
-			reader.ReadString('\n')
-			utils.Clear()
+			time.Sleep(time.Second)
 			continue
 		}
 
 		var results []menus.Product
 		for _, item := range menus.ListProduct {
-			if strings.Contains(strings.ToLower(item.Name), keyword) {
+			if strings.Contains(strings.ToLower(item.Name), input) {
 				results = append(results, item)
 			}
 		}
 
 		if len(results) == 0 {
-			fmt.Printf("\nNo menu items found with the given keyword.\n")
-			utils.GoBack(reader)
+			fmt.Printf("\nNo product found.\n")
+			time.Sleep(time.Second)
 			utils.Clear()
 			return
 		}
 		p := DefaultPagination(results)
-		DisplayPagination(fmt.Sprintf("Search Results for '%s'", keyword), p, reader)
+		DisplayPagination(fmt.Sprintf("Search Results for '%s'", input), p)
 		return
 	}
 }

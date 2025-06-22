@@ -19,6 +19,9 @@ func RegisterMenu() {
 		if password != confirm_password {
 			fmt.Println("Password do not match.")
 			time.Sleep(time.Second)
+		} else if username == "" || password == "" {
+			fmt.Println("Username or Password cannot empty.")
+			time.Sleep(time.Second)
 		} else {
 			AddUser(username, password)
 			fmt.Printf("\nRegistration successful!")

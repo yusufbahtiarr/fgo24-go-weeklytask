@@ -7,7 +7,8 @@ import (
 )
 
 func LoginMenu() {
-	for {
+	maxAttempts := 3
+	for attempts := 1; attempts <= maxAttempts; attempts++ {
 		utils.Clear()
 		fmt.Println("------- LOGIN -------")
 		fmt.Print("Input Username : ")
@@ -22,6 +23,13 @@ func LoginMenu() {
 		} else {
 			fmt.Printf("\nInvalid username or password.")
 			time.Sleep(time.Second)
+		}
+
+		if attempts == maxAttempts {
+			{
+				fmt.Printf("\n\nYou have exceeded the maximum number of login attempts.\n")
+				utils.Exit()
+			}
 		}
 	}
 }

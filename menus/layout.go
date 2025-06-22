@@ -37,7 +37,7 @@ func DisplayMenu(menuType MenuType) {
 				{3, "Filter"},
 				{4, "Cart"},
 				{5, "Checkout"},
-				{6, "Back to Auth Menu"},
+				{6, "Logout"},
 				{0, "Exit"},
 			},
 		},

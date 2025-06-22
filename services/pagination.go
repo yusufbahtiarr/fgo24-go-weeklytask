@@ -4,24 +4,28 @@ import (
 	"fmt"
 	"go-booking-menu/menus"
 	"go-booking-menu/utils"
+	"strconv"
+	"time"
 )
 
 type Pagination struct {
 	Items        []menus.Product
+	Order        *[]menus.OrderProduct
 	CurrentPage  int
 	ItemsPerPage int
 }
 
-func NewPagination(items []menus.Product, perPage int) *Pagination {
+func NewPagination(items []menus.Product, perPage int, order *[]menus.OrderProduct) *Pagination {
 	return &Pagination{
 		Items:        items,
+		Order:        order,
 		CurrentPage:  0,
 		ItemsPerPage: perPage,
 	}
 }
 
-func DefaultPagination(items []menus.Product) *Pagination {
-	return NewPagination(items, 5)
+func DefaultPagination(items []menus.Product, order *[]menus.OrderProduct) *Pagination {
+	return NewPagination(items, 5, order)
 }
 
 func DisplayPagination(title string, p *Pagination) {
@@ -50,7 +54,7 @@ func DisplayPagination(title string, p *Pagination) {
 			fmt.Printf("%d. %s \n", start+i+1, item.DisplayWithCategory())
 		}
 
-		fmt.Println("\n[N] Next page | [P] Previous Page | [B] Back ")
+		fmt.Println("\n[N] Next page | [P] Previous Page | [No_Item] Add To Cart | [B] Back ")
 		fmt.Print("Choose an option : ")
 		input := utils.Input()
 
@@ -67,7 +71,25 @@ func DisplayPagination(title string, p *Pagination) {
 			utils.Clear()
 			return
 		default:
-			utils.InvalidInput()
+			index, err := strconv.Atoi(input)
+			if err != nil || index < 1 || index > len(p.Items) {
+				utils.InvalidInput()
+				continue
+			}
+
+			selectedItem := p.Items[index-1]
+
+			fmt.Printf("Enter quantity for %s: ", selectedItem.Name)
+			qtyInput := utils.Input()
+			qty, err := strconv.Atoi(qtyInput)
+			if err != nil || qty < 1 {
+				fmt.Println("Invalid quantity.")
+				time.Sleep(time.Second)
+				continue
+			}
+
+			AddToCart(p.Order, selectedItem, qty)
+			time.Sleep(1 * time.Second)
 		}
 	}
 }

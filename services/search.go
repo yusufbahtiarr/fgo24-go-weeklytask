@@ -42,7 +42,7 @@ func Search() {
 			time.Sleep(time.Second)
 			return
 		}
-		DisplayPagination(fmt.Sprintf("Search Results for '%s'", input), DefaultPagination(results))
+		DisplayPagination(fmt.Sprintf("Search Results for '%s'", input), DefaultPagination(results, &menus.Orders))
 		return
 	}
 }

@@ -20,13 +20,13 @@ func MainMenu() {
 		case "2":
 			Search()
 		case "3":
-			Order()
+			Filter()
 		case "4":
 			Cart()
 		case "5":
-			MenuAuth()
+			Checkout()
 		case "6":
-			utils.Exit()
+			MenuAuth()
 		default:
 			utils.Input()
 			continue

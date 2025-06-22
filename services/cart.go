@@ -66,6 +66,14 @@ func DeleteProductCart(input string) {
 }
 
 func AddToCart(order *[]menus.OrderProduct, selectedItem menus.Product, qty int) {
+	for i, item := range *order {
+		if item.Name == selectedItem.Name {
+			(*order)[i].Quantity += qty
+			fmt.Printf("\nAdded %d more of %s to your cart. Total: %d\n", qty, selectedItem.Name, (*order)[i].Quantity)
+			return
+		}
+	}
+
 	*order = append(*order, menus.OrderProduct{
 		Name:     selectedItem.Name,
 		Price:    selectedItem.Price,

@@ -24,8 +24,10 @@ func ListMenu() {
 		case "3":
 			SortCheapestProduct(sortedProducts, &menus.Orders)
 		case "4":
-			SortMenuAscending(sortedProducts, &menus.Orders)
+			SortMostExpensiveProduct(sortedProducts, &menus.Orders)
 		case "5":
+			SortMenuAscending(sortedProducts, &menus.Orders)
+		case "6":
 			SortMenuDescending(sortedProducts, &menus.Orders)
 		case "0":
 			utils.Clear()
@@ -51,6 +53,13 @@ func SortMostPopular(sortedProducts []menus.Product, order *[]menus.OrderProduct
 func SortCheapestProduct(sortedProducts []menus.Product, order *[]menus.OrderProduct) {
 	sort.Slice(sortedProducts, func(i, j int) bool {
 		return sortedProducts[i].Price < sortedProducts[j].Price
+	})
+	DisplayPagination("Sort Menu by Cheapest Price", DefaultPagination(sortedProducts, order))
+}
+
+func SortMostExpensiveProduct(sortedProducts []menus.Product, order *[]menus.OrderProduct) {
+	sort.Slice(sortedProducts, func(i, j int) bool {
+		return sortedProducts[i].Price > sortedProducts[j].Price
 	})
 	DisplayPagination("Sort Menu by Cheapest Price", DefaultPagination(sortedProducts, order))
 }

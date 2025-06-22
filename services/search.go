@@ -5,6 +5,7 @@ import (
 	"go-booking-menu/menus"
 	"go-booking-menu/utils"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -23,19 +24,12 @@ func Search() {
 			continue
 		}
 
+		var wg sync.WaitGroup
 		resultChan := make(chan []menus.Product)
 
-		go func(keyword string, ch chan<- []menus.Product) {
-			var found []menus.Product
-			lowered := strings.ToLower(keyword)
+		wg.Add(1)
 
-			for _, item := range menus.ListProduct {
-				if strings.Contains(strings.ToLower(item.Name), lowered) {
-					found = append(found, item)
-				}
-			}
-			ch <- found
-		}(input, resultChan)
+		go ResultSearch(input, menus.ListProduct, resultChan, &wg)
 
 		fmt.Printf("\nSearching...")
 		time.Sleep(2 * time.Second)
@@ -51,4 +45,19 @@ func Search() {
 		DisplayPagination(fmt.Sprintf("Search Results for '%s'", input), DefaultPagination(results))
 		return
 	}
+}
+
+func ResultSearch(keyword string, items []menus.Product, resultChan chan<- []menus.Product, wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	var results []menus.Product
+	keylower := strings.ToLower(keyword)
+
+	for _, item := range items {
+		if strings.Contains(strings.ToLower(item.Name), keylower) {
+			results = append(results, item)
+		}
+	}
+
+	resultChan <- results
 }

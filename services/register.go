@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"go-booking-menu/menus"
 	"go-booking-menu/utils"
 	"time"
 )
@@ -9,7 +10,8 @@ import (
 func RegisterMenu() {
 	for {
 		utils.Clear()
-		fmt.Println("------- REGISTER -------")
+		menus.CafeName()
+		fmt.Print("\nREGISTER \n")
 		fmt.Print("Input Username : ")
 		username := utils.Input()
 		fmt.Print("Input Password : ")

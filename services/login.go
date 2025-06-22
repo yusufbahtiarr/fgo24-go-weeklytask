@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"go-booking-menu/menus"
 	"go-booking-menu/utils"
 	"time"
 )
@@ -10,7 +11,8 @@ func LoginMenu() {
 	maxAttempts := 3
 	for attempts := 1; attempts <= maxAttempts; attempts++ {
 		utils.Clear()
-		fmt.Println("------- LOGIN -------")
+		menus.CafeName()
+		fmt.Print("\nLOGIN \n")
 		fmt.Print("Input Username : ")
 		username := utils.Input()
 		fmt.Print("Input Password : ")

@@ -27,6 +27,11 @@ type MenuCategory struct {
 	Name string
 }
 
+type User struct {
+	Username string
+	Password string
+}
+
 func (mi Menu) FormatPrice() string {
 	return FormatRupiah(mi.Price)
 }
@@ -44,6 +49,10 @@ func (mi Menu) DisplayWithCategory() string {
 func (om OrderMenu) Display() string {
 	return fmt.Sprintf("%s x %d - %s", om.Name, om.Quantity, om.FormatPrice())
 }
+
+var Orders []OrderMenu
+
+var Users []User
 
 var ListMenu = []Menu{
 	{Category: "Food", Name: "Nasi Ayam Rica", Price: 30000, Rating: 4.7},

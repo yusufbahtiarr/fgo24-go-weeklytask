@@ -22,7 +22,7 @@ func MainMenu() {
 		case "3":
 			Filter()
 		case "4":
-			Cart()
+			CartView()
 		case "5":
 			Checkout()
 		case "6":

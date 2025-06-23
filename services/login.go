@@ -17,7 +17,7 @@ func LoginMenu() {
 		username := utils.Input()
 		fmt.Print("Input Password : ")
 		password := utils.Input()
-		auth := LoginUser(username, password)
+		auth := UserServices.LoginUser(username, password)
 		if auth {
 			fmt.Printf("\nLogin Success!")
 			time.Sleep(time.Second)

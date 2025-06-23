@@ -25,7 +25,7 @@ func RegisterMenu() {
 			fmt.Println("Username or Password cannot empty.")
 			time.Sleep(time.Second)
 		} else {
-			AddUser(username, password)
+			UserServices.AddUser(username, password)
 			fmt.Printf("\nRegistration successful!")
 			time.Sleep(time.Second)
 			return

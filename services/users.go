@@ -1,20 +1,38 @@
 package services
 
-import (
-	"go-booking-menu/menus"
-)
+type UserService interface {
+	AddUser(username, password string) User
+	LoginUser(username, password string) bool
+}
 
-func AddUser(username string, password string) menus.User {
-	dataUser := menus.User{
+type User struct {
+	Username string
+	Password string
+}
+
+type userService struct {
+	users []User
+}
+
+func NewUserService() UserService {
+	return &userService{
+		users: []User{},
+	}
+}
+
+var UserServices UserService = NewUserService()
+
+func (u *userService) AddUser(username, password string) User {
+	newUser := User{
 		Username: username,
 		Password: password,
 	}
-	menus.Users = append(menus.Users, dataUser)
-	return dataUser
+	u.users = append(u.users, newUser)
+	return newUser
 }
 
-func LoginUser(username string, password string) bool {
-	for _, user := range menus.Users {
+func (u *userService) LoginUser(username, password string) bool {
+	for _, user := range u.users {
 		if user.Username == username && user.Password == password {
 			return true
 		}

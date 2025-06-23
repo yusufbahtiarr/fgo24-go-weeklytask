@@ -11,12 +11,6 @@ type ProductItem interface {
 	DisplayWithCategory() string
 }
 
-type OrderProduct struct {
-	Name     string
-	Price    int
-	Quantity int
-}
-
 type Product struct {
 	Name, Category string
 	Price          int
@@ -27,16 +21,8 @@ type ProductCategory struct {
 	Name string
 }
 
-type User struct {
-	Username string
-	Password string
-}
-
 func (pr Product) FormatPrice() string {
 	return FormatRupiah(pr.Price)
-}
-func (om OrderProduct) FormatPrice() string {
-	return FormatRupiah(om.Price * om.Quantity)
 }
 
 func (pr Product) Display() string {
@@ -45,14 +31,6 @@ func (pr Product) Display() string {
 func (pr Product) DisplayWithCategory() string {
 	return fmt.Sprintf("%s (%s) - %s", pr.Name, pr.Category, pr.FormatPrice())
 }
-
-func (om OrderProduct) Display() string {
-	return fmt.Sprintf("%s x %d - %s", om.Name, om.Quantity, om.FormatPrice())
-}
-
-var Orders []OrderProduct
-
-var Users []User
 
 var ListProduct = []Product{
 	{Category: "Food", Name: "Nasi Ayam Rica", Price: 30000, Rating: 4.7},

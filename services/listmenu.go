@@ -18,17 +18,17 @@ func ListMenu() {
 
 		switch input {
 		case "1":
-			ShowAllMenu(sortedProducts, &menus.Orders)
+			ShowAllMenu(sortedProducts, &Carts)
 		case "2":
-			SortMostPopular(sortedProducts, &menus.Orders)
+			SortMostPopular(sortedProducts, &Carts)
 		case "3":
-			SortCheapestProduct(sortedProducts, &menus.Orders)
+			SortCheapestProduct(sortedProducts, &Carts)
 		case "4":
-			SortMostExpensiveProduct(sortedProducts, &menus.Orders)
+			SortMostExpensiveProduct(sortedProducts, &Carts)
 		case "5":
-			SortMenuAscending(sortedProducts, &menus.Orders)
+			SortMenuAscending(sortedProducts, &Carts)
 		case "6":
-			SortMenuDescending(sortedProducts, &menus.Orders)
+			SortMenuDescending(sortedProducts, &Carts)
 		case "0":
 			utils.Clear()
 			return
@@ -39,37 +39,37 @@ func ListMenu() {
 	}
 }
 
-func ShowAllMenu(sortedProducts []menus.Product, order *[]menus.OrderProduct) {
+func ShowAllMenu(sortedProducts []menus.Product, order *[]Cart) {
 	DisplayPagination("Show All Menu ", DefaultPagination(sortedProducts, order))
 }
 
-func SortMostPopular(sortedProducts []menus.Product, order *[]menus.OrderProduct) {
+func SortMostPopular(sortedProducts []menus.Product, order *[]Cart) {
 	sort.Slice(sortedProducts, func(i, j int) bool {
 		return sortedProducts[i].Rating > sortedProducts[j].Rating
 	})
 	DisplayPagination("Sort Menu by Most Popular", DefaultPagination(sortedProducts, order))
 }
 
-func SortCheapestProduct(sortedProducts []menus.Product, order *[]menus.OrderProduct) {
+func SortCheapestProduct(sortedProducts []menus.Product, order *[]Cart) {
 	sort.Slice(sortedProducts, func(i, j int) bool {
 		return sortedProducts[i].Price < sortedProducts[j].Price
 	})
 	DisplayPagination("Sort Menu by Cheapest Price", DefaultPagination(sortedProducts, order))
 }
 
-func SortMostExpensiveProduct(sortedProducts []menus.Product, order *[]menus.OrderProduct) {
+func SortMostExpensiveProduct(sortedProducts []menus.Product, order *[]Cart) {
 	sort.Slice(sortedProducts, func(i, j int) bool {
 		return sortedProducts[i].Price > sortedProducts[j].Price
 	})
 	DisplayPagination("Sort Menu by Cheapest Price", DefaultPagination(sortedProducts, order))
 }
-func SortMenuAscending(sortedProducts []menus.Product, order *[]menus.OrderProduct) {
+func SortMenuAscending(sortedProducts []menus.Product, order *[]Cart) {
 	sort.Slice(sortedProducts, func(i, j int) bool {
 		return strings.ToLower(sortedProducts[i].Name) < strings.ToLower(sortedProducts[j].Name)
 	})
 	DisplayPagination("Sort Menu by Name (A-Z)", DefaultPagination(sortedProducts, order))
 }
-func SortMenuDescending(sortedProducts []menus.Product, order *[]menus.OrderProduct) {
+func SortMenuDescending(sortedProducts []menus.Product, order *[]Cart) {
 	sort.Slice(sortedProducts, func(i, j int) bool {
 		return strings.ToLower(sortedProducts[i].Name) > strings.ToLower(sortedProducts[j].Name)
 	})

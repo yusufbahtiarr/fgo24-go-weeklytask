@@ -18,13 +18,13 @@ func Filter() {
 			utils.Clear()
 			return
 		case "1":
-			filterCategory("Food", &menus.Orders)
+			filterCategory("Food", &Carts)
 		case "2":
-			filterCategory("Drink", &menus.Orders)
+			filterCategory("Drink", &Carts)
 		case "3":
-			filterCategory("Snack", &menus.Orders)
+			filterCategory("Snack", &Carts)
 		case "4":
-			filterCategory("Appetizer", &menus.Orders)
+			filterCategory("Appetizer", &Carts)
 		default:
 			utils.InvalidInput()
 			continue
@@ -32,7 +32,7 @@ func Filter() {
 	}
 }
 
-func filterCategory(category string, order *[]menus.OrderProduct) {
+func filterCategory(category string, order *[]Cart) {
 	utils.Clear()
 	menus.CafeName()
 

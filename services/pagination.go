@@ -10,21 +10,21 @@ import (
 
 type Pagination struct {
 	Items        []menus.Product
-	Order        *[]menus.OrderProduct
+	Cart         *[]Cart
 	CurrentPage  int
 	ItemsPerPage int
 }
 
-func NewPagination(items []menus.Product, perPage int, order *[]menus.OrderProduct) *Pagination {
+func NewPagination(items []menus.Product, perPage int, cart *[]Cart) *Pagination {
 	return &Pagination{
 		Items:        items,
-		Order:        order,
+		Cart:         cart,
 		CurrentPage:  0,
 		ItemsPerPage: perPage,
 	}
 }
 
-func DefaultPagination(items []menus.Product, order *[]menus.OrderProduct) *Pagination {
+func DefaultPagination(items []menus.Product, order *[]Cart) *Pagination {
 	return NewPagination(items, 5, order)
 }
 
@@ -88,7 +88,7 @@ func DisplayPagination(title string, p *Pagination) {
 				continue
 			}
 
-			AddToCart(p.Order, selectedItem, qty)
+			AddToCart(p.Cart, selectedItem, qty)
 			time.Sleep(1 * time.Second)
 		}
 	}

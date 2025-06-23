@@ -18,17 +18,17 @@ func ListMenu() {
 
 		switch input {
 		case "1":
-			ShowAllMenu(sortedProducts, &Carts)
+			ShowAllMenu(sortedProducts, CartServices.GetCarts())
 		case "2":
-			SortMostPopular(sortedProducts, &Carts)
+			SortMostPopular(sortedProducts, CartServices.GetCarts())
 		case "3":
-			SortCheapestProduct(sortedProducts, &Carts)
+			SortCheapestProduct(sortedProducts, CartServices.GetCarts())
 		case "4":
-			SortMostExpensiveProduct(sortedProducts, &Carts)
+			SortMostExpensiveProduct(sortedProducts, CartServices.GetCarts())
 		case "5":
-			SortMenuAscending(sortedProducts, &Carts)
+			SortMenuAscending(sortedProducts, CartServices.GetCarts())
 		case "6":
-			SortMenuDescending(sortedProducts, &Carts)
+			SortMenuDescending(sortedProducts, CartServices.GetCarts())
 		case "0":
 			utils.Clear()
 			return

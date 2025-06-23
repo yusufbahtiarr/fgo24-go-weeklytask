@@ -18,13 +18,13 @@ func Filter() {
 			utils.Clear()
 			return
 		case "1":
-			filterCategory("Food", &Carts)
+			filterCategory("Food", CartServices.GetCarts())
 		case "2":
-			filterCategory("Drink", &Carts)
+			filterCategory("Drink", CartServices.GetCarts())
 		case "3":
-			filterCategory("Snack", &Carts)
+			filterCategory("Snack", CartServices.GetCarts())
 		case "4":
-			filterCategory("Appetizer", &Carts)
+			filterCategory("Appetizer", CartServices.GetCarts())
 		default:
 			utils.InvalidInput()
 			continue

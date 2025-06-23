@@ -17,7 +17,7 @@ func Checkout() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		GetCart()
+		CartServices.GetCart()
 	}()
 	wg.Wait()
 

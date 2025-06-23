@@ -88,7 +88,7 @@ func DisplayPagination(title string, p *Pagination) {
 				continue
 			}
 
-			AddToCart(p.Cart, selectedItem, qty)
+			CartServices.AddToCart(selectedItem, qty)
 			time.Sleep(1 * time.Second)
 		}
 	}

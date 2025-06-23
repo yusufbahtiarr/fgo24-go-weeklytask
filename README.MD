@@ -27,6 +27,12 @@ Core Features:
    - Remove Item from Cart
    - Checkout
 
+## Preview
+
+![Shopping Cart Preview](Screenshot_2.png)
+
+![Shopping Cart Preview](Screenshot_4.png)
+
 ## Prerequisites
 
 Make sure you already install Go to run this project
